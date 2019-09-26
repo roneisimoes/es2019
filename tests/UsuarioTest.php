@@ -1,8 +1,8 @@
-<?php>
+<?php
 namespace test;
 
 require_once('../vendor/autoload.php');
-require_onde('../models/Usuario');
+require_once('../models/Usuario.php');
 
 use models\Usuario;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +23,7 @@ class UsuarioTest extends TestCase{
         $usuario = new Usuario();
         $this->assertEquals(
             TRUE,
-            $usuario->incluirUsuario('','','','')
+            $usuario->incluirUsuario('bisonho','bisonho@bisonho','bisonho','bisonho')
         );
         unset($usuario);
     }
