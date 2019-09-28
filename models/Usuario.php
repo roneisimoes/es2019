@@ -24,7 +24,7 @@ namespace models;
                 $this->logado = false;
 
                 }else{
-                    while($linha = $resultado->fetchassoc()){
+                    while($linha = $resultado->fetch_assoc()){
                         $this->login = $linha['login'];
                         $this->nome = $linha['nome'];
                         $this->email = $linha['email'];
@@ -39,24 +39,22 @@ namespace models;
         }
 
         public function incluirUsuario($nome, $email, $login, $senha){
-            $conexaoDB = this->conectarBanco();
+            $conexaoDB = $this->conectarBanco();
 
-            $sqlInsert = $conexaoDB->prepare("insert into usuario (nome, email, login, senha
+            $sqlInsert = $conexaoDB->prepare("insert into usuario (nome, email, login, senha)
                                               values (?, ?, ?, ?)");
         
-            $sqlInser->bind_param("ssss", $nome, $email, $login, $senha);
-            
-
+            $sqlInsert->bind_param("ssss", $nome, $email, $login, $senha);
             $sqlInsert->execute();
 
-            return true;
-
-
+            if($sqlInsert->error){
+                return TRUE;
+        
+            }else {
+                return FALSE;
+            }
 
         }
-
-
-
 
         private function conectarBanco(){
             $conn = new \mysqli('localhost', 'root', '','mydb');
