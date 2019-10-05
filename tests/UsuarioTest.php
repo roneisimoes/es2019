@@ -3,32 +3,32 @@ namespace test;
 
 require_once('../vendor/autoload.php');
 require_once('../models/Usuario.php');
+require_once('../DAO/DAOUsuario.php');
 
-use models\Usuario;
 use PHPUnit\Framework\TestCase;
+use models\Usuario;
+use DAO\DAOUsuario;
 
 class UsuarioTest extends TestCase{
-    /** @teste */
+    /** @test */
     public function testLogar(){
-        $usuario = new Usuario();
-
-        $this->assertEquals(
-            TRUE,
-            $usuario->logar('', '')
-        );
-        unset($usuario);
+       $usuario = new Usuario();
+       $daoUsuario = new DAOUsuario();
+       $usuario->addUsuario("paulo", "paulo", "paulo@eu.com", "", TRUE);
+       $this->assertEquals(
+          $usuario,
+          $daoUsuario->logar('paulo', '123')
+       );
+       unset($usuario);
     }
-     /** @teste */
+    /** @test */
     public function testIncluirUsuario(){
-        $usuario = new Usuario();
-        $this->assertEquals(
-            TRUE,
-            $usuario->incluirUsuario('bisonho','bisonho@bisonho','bisonho','bisonho')
-        );
-        unset($usuario);
+       $daoUsuario = new DAOUsuario();
+       $this->assertEquals(
+          TRUE,
+          $daoUsuario->incluirUsuario("raul", "raul@gmail.com", "raul", "raul")
+       );
+       unset($usuario);
     }
-
-
-
-}
+ }
 ?>
