@@ -12,14 +12,14 @@ use DAO\DAOUsuario;
 class UsuarioTest extends TestCase{
     /** @test */
     public function testLogar(){
-       $usuario = new Usuario();
+       $DAOUsuario = new DAOUsuario();
        $daoUsuario = new DAOUsuario();
-       $usuario->addUsuario("paulo", "paulo", "paulo@eu.com", "", TRUE);
+       $DAOUsuario->addUsuario("paulo", "paulo", "paulo@eu.com", "", TRUE);
        $this->assertEquals(
-          $usuario,
+          $DAOUsuario,
           $daoUsuario->logar('paulo', '123')
        );
-       unset($usuario);
+       unset($DAOUsuario);
     }
     /** @test */
     public function testIncluirUsuario(){
@@ -28,7 +28,7 @@ class UsuarioTest extends TestCase{
           TRUE,
           $daoUsuario->incluirUsuario("raul", "raul@gmail.com", "raul", "raul")
        );
-       unset($usuario);
+       unset($DAOUsuario);
     }
  }
 ?>

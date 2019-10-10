@@ -1,12 +1,31 @@
 <?php
     namespace DAO;
+    mysqli_report(MYSQLI_REPORT_STRICT);
     
     require_once('../models/Usuario.php');
     use MODELS\Usuario;
+    /**
+     * Esta classe é responsavel por fazer a comunicaçao com o banco de dados,
+     * provendo as funçoes de logar e incluir um novo usuario
+     * @author Ronei/Vitor
+     * @package DAO 
+     */
     class DAOUsuario {
+        /**
+         * Faz o login do usuario no sistema e retorna um objeto usuario
+         * @param string $login Login do usuario
+         * @param string $senha Senha do usuario
+         * @return Usuario Se logado com sucesso os atributos serao retornado com os dados do usuario, senao retornarao
+         * com valor nulo, exceto o atributo $logado, que retornara FALSE
+         */
         public function logar($login, $senha) {
-            $retorno = new Usuario();
-            $conexao = $this->conectarBanco();
+            try{
+                $conexaoDB = $this->conectarBanco();
+            }catch(\Exception $e){
+                die($e->getMessage());
+            }
+            $usuario = new Usuario();
+
             $sql = $conexao->prepare("SELECT login, nome, email, celular
                                     FROM usuario
                                     WHERE login=? AND senha=?");
@@ -27,20 +46,54 @@
             $conexao->close();
             return $retorno;
         }
-        public function incluirUsuario($login, $senha, $nome, $email) {
+        /**
+         * Inclui um novo usuario no sistema
+         * @param string $nome Nome do usuario
+         * @param string $email Email do usuario
+         * @param string $login Login do usuario
+         * @param string $senha Senha do usuario
+         * @return TRUE|Exception TRUE para inclusao bem sucedida ou Exception para inclusao mal sucedida
+         */
+        public function incluirUsuario($nome, $email, $login, $senha){
+            try{
             $conexao = $this->conectarBanco();
-            $sql = $conexao->prepare("INSERT INTO usuario (login, senha, nome, email) 
-                                    VALUES(?, ?, ?, ?)");
-            $sql->bind_param("ssss", $login, $senha, $nome, $email);
-            $sql->execute();
-            if (!$sql->error)
-                return true;
-            else
-                return false;
+            }catch(\Exception $e){
+                die($e->getMessage());
+            }
+
+            $sqlInsert = $conexaoDB->prepare("insert into usuario
+                                       (nome, email, login, senha)
+                                       values
+                                       (?, ?, ?, ?)");
+            $sqlInsert->bind_param("ssss", $nome, $email, $login, $senha);
+            $sqlInsert->execute();
+                if(!$sqlInsert->error){
+                 $retorno =  TRUE;
+                }else{
+                    throw new Exception("Nao foi possivel incluir novo usuario");
+                    die;
+                }
+                  $conexaoDB->close();
+                   $sqlInsert->close();
+                return $retorno;
         }
+        /**
+         * Efetua a conexao com o banco de dados usando mysqli
+         * @return mysqli|Exception 
+         */
+
+
         private function conectarBanco() {
-            $conn = new \mysqli("localhost", "root", "", "mydb");
-            return $conn;
+            define('DS', DIRECTORY_SEPARATOR);
+            define('BASE_DIRECTORY', dirname(__FILE__).DS);
+            require_once(BASE_DIR.'config.php');
+            try{
+                $conn = new \mysqli($dbhost, $user, $password, $banco);
+                return $conn;
+            }catch(mysqli_sql_exception $e){
+                throw new \Exception($e);
+                die;
+            }
         }
         
     }
