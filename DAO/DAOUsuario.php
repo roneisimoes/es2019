@@ -84,9 +84,13 @@
 
 
         private function conectarBanco() {
+            if(!defined('DS')){
             define('DS', DIRECTORY_SEPARATOR);
+            }
+            IF(!defined('BASE_DIR')){
             define('BASE_DIRECTORY', dirname(__FILE__).DS);
-            require_once(BASE_DIR.'config.php');
+            }
+            require(BASE_DIR.'config.php');
             try{
                 $conn = new \mysqli($dbhost, $user, $password, $banco);
                 return $conn;

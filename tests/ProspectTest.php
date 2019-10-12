@@ -46,4 +46,14 @@ class ProspectTest extends TestCase{
 
     }
 }
+
+
+
+// ../uteis/vendor/bin/phpunit --testdocs --colors nomearquivo*
+
+// git add*
+// git commit -m 'comentario'
+// git push
+
+
 ?>
