@@ -1,75 +1,83 @@
 <?php
 namespace CONTROLLERS;
-require_once('../../DAO/DAOProspect.php');
+require('../DAO/DAOProspect.php');
 use DAO\DAOProspect;
-
 /**
- * Esta classe é responsavel por fazer o tratamento dos dados para a apresentaçao e/ou
- * envio para o DAO
- * Seu espaco limita se as funcoes da entidade Prospect
- * 
- * @author Ronei/Vitor
+ * Esta classe é responsável por fazer o tratamento dos dados para apresentação e/ou
+ * envio para a DAO executar as consultas no banco de dados.
+ * Seu escopo se limita às funções da entidade prospect.
+ *
+ * @author Paulo Roberto Córdova
+ *
  */
-class ControllerUsuario{
-    /**
-     * Recebe os dados, faz o devido tratamento e envia para o DAO executar 
-     * no banco de dados
-     * @param string $login Login do usuario
-     * @param string $senha Senha do usuario
-     * @return Usuario
-     */
-    public function incluirProspect($nome, $email, $celular, $facebook, $whatsapp, $rua, $numero, $bairro, $cidade, $uf, $cep){
-        $daoProspect = new DAOProspect();
-
-        $Prospect= $daoProspect->incluir($nome, $email, $celular, $facebook, $whatsapp, $rua, $numero, $bairro, $cidade, $uf, $cep);
-
-        unset($daoProspect);
-        return $prospect;
-    }
-
-    public function atualizarProspect($nome, $email, $celular, $facebook, $whatsapp, $rua, $numero, $bairro, $cidade, $uf, $cep, $idprospect){
-        $daoProspect = new DAOProspect();
-        /**
-         * Captura a excecao retornada pela DAO no caso de falha ao incluir um usuario
-         * e dispara outra excecao para ser tratada por quem chamar esta funcao
-         */
-        try{
-           $retorno = $daoProspect->atualizarProspect($nome, $email, $celular, $facebook, $whatsapp, $rua, $numero, $bairro, $cidade, $uf, $cep, $idprospect);
-           unset($daoProspect);
-           return $retorno; 
-        }catch(\Exception $e){
+class ControllerProspect{
+   /**
+    * Recebe um objeto do tipo Prospect, verifica se é para salvar ou alterar
+    * e envia para a DAO executar a operação solicitada
+    *
+    * @param Prospect $prospect Objeto do tipo usuário
+    * @return TRUE|Exception Retorna TRUE caso a operação tenha sido bem sucedida e Exception, caso não tenha.
+    */
+   public function salvarProspect($prospect){
+      $daoProspect = new DAOProspect();
+      if($prospect->codigo === null){
+         /**
+          * Captura a exceção retornada pelo DAO no caso de falha ao incluir prospect
+          * e dispara outra exceção para ser tratada por quem chamar a função
+          */
+         try{
+            $daoProspect->incluirProspect($prospect->nome, $prospect->email, $prospect->celular, $prospect->facebook,
+                                       $prospect->whatsapp);
+            return TRUE;
+         }catch(\Exception $e){
             throw new \Exception($e->getMessage());
-        }
-    }
-
-    public function excluirProspect($idprospect){
-        $daoProspect = new DAOProspect();
-        
-        try{
-            $retorno = $daoProspect->prepare("DELETE FROM prospect WHERE idprospect =?");
-            $sqlDelete ->bind_param("i", $idprospect);
-            unset($daoProspect);
-            return $retorno; 
-         }catch(\Exception $e){
-             throw new \Exception($e->getMessage());
          }
-
-    }
-
-
-    public function buscarProspect($email=null){
-        $daoProspect = new DAOProspect();
-        
-        try{
-            $retorno = $daoProspect->buscarProspect($nome, $email, $celular, $facebook, $whatsapp, $rua, $numero, $bairro, $cidade, $uf, $cep, $idprospect);
+      }else{
+          /**
+          * Captura a exceção retornada pelo DAO no caso de falha ao atualizar prospect
+          * e dispara outra exceção para ser tratada por quem chamar a função
+          */
+         try{
+            $daoProspect->atualizarProspect($prospect->nome, $prospect->email, $prospect->celular, $prospect->facebook,
+                                            $prospect->whatsapp, $prospect->codigo);
             unset($daoProspect);
-            return $retorno; 
+            return TRUE;
          }catch(\Exception $e){
-             throw new \Exception($e->getMessage());
+            throw new \Exception($e);
          }
-        }
-        
+      }
+   }
+   /**
+    * Recebe um objeto do tipo Prospect e envia para a DAO concluir a exclusão
+    *
+    * @param Prospect $prospect Objeto Prospect informando o código do prospect a ser excluído
+    * @return TRUE|Exception Retorna TRUE caso a inclusão tenha sido bem sucedida
+    * ou uma Exception caso não tenha.
+    */
+   public function excluirProspect($prospect){
+      $daoProspect = new DAOProspect();
+      /**
+       * Captura a exceção retornada pelo DAO no caso de falha ao excluir prospect
+       * e dispara outra exceção para ser tratada por quem chamar a função
+       */
+      try{
+         $daoProspect->excluirProspect($prospect->codigo);
+         unset($daoProspect);
+         return TRUE;
+      }catch(\Exception $e){
+         throw new \Exception($e->getMessage());
+      }
+   }
+   public function buscarProspects($email=null){
+     $daoProspect = new DAOProspect();
+     $prospects = array();
+     if($email === null){
+        $prospects = $daoProspect->buscarProspects();
+        return $prospects;
+     }else{
+        $prospects = $daoProspect->buscarProspects($email);
+        return $prospects;
+     }
+   }
 }
-
-
 ?>
