@@ -1,28 +1,21 @@
+  
 <?php
 session_start();
 require_once('ControllerUsuario.php');
 use controllers\ControllerUsuario;
-if(isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['login']) && isset($_POST['senha'])){
-   $nome = $_POST['nome'];
-   $usuario = $_POST['usuario'];
-   $login = $_POST['login'];
-   $senha = $_POST['senha'];
-   $ctrlUsuario = new ControllerUsuario();
-   try {
-      $usuario = $ctrlUsuario->incluirUsuario($login, $senha, $nome, $email);
-      if($usuario == null || $usuario = array()){
-         header("Location: ../../views/Usuario/v_incluir_usuario.php");
-      } else { 
-         $_SESSION['erroLogin'] = "Ocorreu um erro ao realizar o cadastro.";
-         header("Location: ../../views/Usuario/v_incluir_usuario.php");
-      }
-   } catch(\Exception $e) {
-      $_SESSION['erroLogin'] = "Ocorreu um erro ao realizar o cadastro. " + $e->getMessage();
-      header("Location: ../../views/Usuario/v_incluir_usuario.php");
-  }
-   
-}else{
-   $_SESSION['erroLogin'] = "Você precisa informar todos os dados para um novo cadastro.";
+$nome = $_POST['nome'];
+$email = $_POST['email'];
+$login = $_POST['login'];
+$senha = $_POST['senha'];
+$cUsuario = new ControllerUsuario();
+try{
+   $cUsuario->salvarUsuario($nome, $senha, $login, $senha);
+   unset($cUsuario);
+    $_SESSION['erroLogin'] = "Faça o Login para entrar no sistema!";
+   header("Location: ../../index.php");
+}catch(Exception $e){
+   $_SESSION['erroNovoUsuario'] = $e->getMessage();
+   unset($cUsuario);
    header("Location: ../../views/Usuario/v_incluir_usuario.php");
 }
 ?>

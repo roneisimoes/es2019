@@ -1,7 +1,9 @@
 <?php
     namespace DAO;
-
-    require_once('../models/Usuario.php');
+    $separador = DIRECTORY_SEPARATOR;
+    $root = $_SERVER['DOCUMENT_ROOT'].$separador;
+    require_once($root .'RVProspect/models/Usuario.php');
+    
     use MODELS\Prospect;
     class DAOProspect{
        
