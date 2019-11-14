@@ -34,11 +34,11 @@ if(isset($_SESSION['usuario'])){
         <div class="container">
             <form class="form-signin" action="../../controllers/Prospect/c_incluir_prospect.php" method="POST">
                 <div>
-                    <h5 class="form-signin-heading">Cadastro de Usuários:</h5>
+                    <h5 class="form-signin-heading">Cadastro de Prospects:</h5>
                 </div class="">
                 <div class="form-group">
                      <label for="nome">Nome:</label>
-                     <input name="codigo" id="nome" type="text" placeholder="Digite seu nome" class="form-control" autofocus required/>
+                     <input name="nome" id="nome" type="text" placeholder="Digite seu nome" class="form-control" autofocus required/>
                      <label for="email">E-mail:</label>
                      <input name="email" id="email" placeholder="Digite seu E-mail" class="form-control" required  autocomplete="off"/>
                      <label for="celular">Celular:</label>
@@ -51,6 +51,14 @@ if(isset($_SESSION['usuario'])){
                 <button type="submit" class="btn btn-success">Cadastrar</button>
                 <a href="v_listar_prospect.php" class="btn btn-danger">Cancelar</a>
             </form>
+            <p class="text-center text-danger">
+                <?php
+                  if(isset($_SESSION['erroNovoProspect'])){
+                     echo $_SESSION['erroNovoProspect'];
+                     unset($_SESSION['erroNovoProspect']);
+                  }
+                ?>
+            </p>
         </div>
     </body>
 </html>
