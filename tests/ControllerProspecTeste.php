@@ -1,62 +1,104 @@
 <?php
-namespace tests;
+namespace test;
 require_once('../uteis/vendor/autoload.php');
 require_once('../models/Prospect.php');
 require_once('../controllers/Prospect/ControllerProspect.php');
-use PHPunit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 use models\Prospect;
-use controllers\ControllerProspect;
-
-
-class ControllerProspectTest extends TestCase{
-    /** @test */
-    public function testLogar(){
-        $ctrlProspect = new ControllerProspect();
-        $Prospect = new Prospect();
-
-        $Prospect->addProspect("bisonho", "bisonho", "bisonho@bisonho", "bisonho", TRUE);
-    }
-
-    public function testAtualizarProspect(){
-        $ctrlProspect = new ControllerProspect();
-        $Prospect = new Prospect();
-
-        try{
-            $this->assertEquals(
-                TRUE,
-                $ctrlProspect->salvarProspect('Marcos dias', 'dias@noites.com', 'dias', '145')
-            );
-        }catch(\Exception $e){
-            $this->fail($e->getMessage());
-        }
-    }
-
-    public function testeExcluirProspect(){
-        $ctrlProspect = new ControllerProspect();
-        $Prospect = new Prospect();
-
-        try{
-            $this->assertEquals(
-                TRUE,
-                $ctrlProspect->excluirProspect('1')
-            );
-        }catch(\Exception $e){
-            $this->fail($e->getMessage());
-        }
-    }
-
-    public function testBuscarProspect(){
-        $ctrlProspect = new ControllerProspect();
-        $Prospect = new Prospect();
-
-        try{
-            $this->assertEquals(
-                TRUE,
-                $ctrlProspect->salvarProspect('bisinho@bisonho')
-            );
-        }catch(\Exception $e){
-            $this->fail($e->getMessage());
-        }
-    }
+use CONTROLLERS\ControllerProspect;
+class UsuarioTest extends TestCase{
+   /** @test */
+   public function incluirProspect(){
+      $ctrlProspect = new ControllerProspect();
+      $prospect = new Prospect();
+      $prospect->addProspect(null, 'Bisonho', 'bisonho@gmail', 'bisonho', '', '1234');
+      try{
+         $this->assertEquals(
+            TRUE,
+            $ctrlProspect->salvarProspect($prospect)
+         );
+      }catch(\Exception $e){
+         $this->fail($e->getMessage());
+      }
+   }
+   /** @test */
+   public function alterarProspect(){
+      $ctrlProspect = new ControllerProspect();
+      $prospect = new Prospect();
+      $prospect->addProspect(19, 'Bisonho', 'bisonho@gmail', 'bisonho2', '', '4321');
+      try{
+         $this->assertEquals(
+            TRUE,
+            $ctrlProspect->salvarProspect($prospect)
+         );
+      }catch(\Exception $e){
+         $this->fail($e->getMessage());
+      }
+   }
+   /** @test */
+   public function excluirProspect(){
+      $ctrlProspect = new ControllerProspect();
+      $prospect = new Prospect();
+      $prospect->addProspect(19, 'Bisonho', 'bisonho@gmail', 'bisonho2', '', '4321');
+      try{
+         $this->assertEquals(
+            TRUE,
+            $ctrlProspect->excluirProspect($prospect)
+         );
+      }catch(\Exception $e){
+         $this->fail($e->getMessage());
+      }
+   }
+   /** @test */
+   public function buscarProspectPorEmail(){
+      $ctrlProspect = new ControllerProspect();
+      $prospect = new Prospect();
+      $email = 'bisonho@gmail';
+      $arrayComparar = array();
+      $conn = new \mysqli('localhost', 'root', '', 'bd_prospects');
+      $sqlBusca = $conn->prepare("select cod_prospect, nome, email, celular,
+                                          facebook, whatsapp
+                                          from prospect
+                                          where
+                                          email = '$email'");
+      $sqlBusca->execute();
+      $result = $sqlBusca->get_result();
+      if($result->num_rows !== 0){
+         while($linha = $result->fetch_assoc()) {
+            $linhaComparar = new Prospect();
+            $linhaComparar->addProspect($linha['cod_prospect'], $linha['nome'], $linha['email'], $linha['celular'],
+                                 $linha['facebook'], $linha['whatsapp']);
+            $arrayComparar[] = $linhaComparar;
+         }
+      }
+      $this->assertEquals(
+         $arrayComparar,
+          $ctrlProspect->buscarProspects($email)
+      );
+   }
+   /** @test */
+   public function buscarTodosProspects(){
+      $ctrlProspect = new ControllerProspect();
+         $prospect = new Prospect();
+         $arrayComparar = array();
+         $conn = new \mysqli('localhost', 'root', '', 'bd_prospects');
+         $sqlBusca = $conn->prepare("select cod_prospect, nome, email, celular,
+                                             facebook, whatsapp
+                                             from prospect");
+         $sqlBusca->execute();
+         $result = $sqlBusca->get_result();
+         if($result->num_rows !== 0){
+            while($linha = $result->fetch_assoc()) {
+               $linhaComparar = new Prospect();
+               $linhaComparar->addProspect($linha['cod_prospect'], $linha['nome'], $linha['email'], $linha['celular'],
+                                    $linha['facebook'], $linha['whatsapp']);
+               $arrayComparar[] = $linhaComparar;
+            }
+         }
+         $this->assertEquals(
+         $arrayComparar,
+         $ctrlProspect->buscarProspects()
+      );
+   }
 }
 ?>

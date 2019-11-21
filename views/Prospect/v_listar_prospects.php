@@ -33,8 +33,9 @@ if(isset($_SESSION['usuario'])){
                         </li>
                     </ul>
                     <span class="navbar-text">
-                        Bem vindo: ---
-                    </span>
+                    Bem vindo: <?php $usuario = unserialize($_SESSION['usuario']);
+                    echo $usuario->nome;
+                    ?>
                 </div>
             </nav>
         </header><br>
@@ -63,7 +64,7 @@ if(isset($_SESSION['usuario'])){
                                     echo '<td>'.$prospect->facebook.'</td>';
                                     echo '<td>'.$prospect->whatsapp.'</td>';
                                     echo '<td width="150"><a href="v_alterar_prospect.php?email="'.$prospect->email.'">alterar</a> |
-                                    <a href="../../controllers/Prospect/c_excluir_prospect.php?codigo'.$prospect->codigo.'">excluir</a></td>';
+                                    <a href="../../controllers/Prospect/c_excluir_prospect.php?codigo='.$prospect->codigo.'">excluir</a></td>';
                                 echo '</tr>';
                             }
                         ?>

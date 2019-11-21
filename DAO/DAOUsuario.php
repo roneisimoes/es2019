@@ -3,13 +3,13 @@ namespace DAO;
 mysqli_report(MYSQLI_REPORT_STRICT);
 $separador = DIRECTORY_SEPARATOR;
 $root = $_SERVER['DOCUMENT_ROOT'].$separador;
-require($root . 'prospectcolector/models/Usuario.php');
+require($root . 'RVProspect/models/Usuario.php');
 use models\Usuario;
 /**
  * Esta classe é reponsável por fazer a comunicação com o banco de dados,
  * provendo as funções de logar e incluir um novo usuário
  *
- * @author Paulo Roberto Córdova
+ * @author Ronei/Vitor
  *
  */
 class DAOUsuario{
@@ -78,7 +78,7 @@ class DAOUsuario{
    private function conectarBanco(){
      $separador = DIRECTORY_SEPARATOR;
      $root = $_SERVER['DOCUMENT_ROOT'].$separador;
-      require($root . 'prospectcolector/DAO/config.php');
+      require($root . 'RVProspect/DAO/config.php');
       try {
          $conn = new \MySQLi($dbhost, $user, $password, $banco);
          return $conn;

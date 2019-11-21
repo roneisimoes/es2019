@@ -25,9 +25,9 @@ session_start();
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    Bem vindo:
-                    Cadastre-se
-                </span>
+                    Bem vindo: <?php $usuario = unserialize($_SESSION['usuario']);
+                    echo $usuario->nome;
+                    ?>
             </div>
         </nav>
         </header>
@@ -49,7 +49,7 @@ session_start();
                     <input name="senha" id="senha" type="password" placeholder="Digite sua senha" class="form-control" required/>
                 </div>
                 <button type="submit" class="btn btn-success">Cadastrar</button>
-                <a href="../../index.php" class="btn btn-danger">Cancelar</a>
+                <a href="usuarios.php" class="btn btn-danger">Cancelar</a>
             </form>
             <p class="text-center text-danger">
                 <?php

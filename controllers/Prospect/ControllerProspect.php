@@ -1,6 +1,8 @@
 <?php
 namespace CONTROLLERS;
-require('../DAO/DAOProspect.php');
+$separador = DIRECTORY_SEPARATOR;
+$root = $_SERVER['DOCUMENT_ROOT'].$separador;
+require_once($root .'RVProspect/DAO/DAOProspect.php');
 use DAO\DAOProspect;
 /**
  * Esta classe é responsável por fazer o tratamento dos dados para apresentação e/ou

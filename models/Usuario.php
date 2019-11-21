@@ -1,52 +1,52 @@
 <?php
 namespace MODELS;
 /**
- * Classe Model de usuário
- * @author Ronei/Vitor
- * @package MODELS
+ * Classe Model de Usuários
+ *
+ * @author Paulo Roberto Córdova
+ *
  */
 class Usuario{
-/**
- * Login do usuário
- * @var string
- */
-
+  /**
+    * Login do Usuários
+    * @var string
+    */
    public $login;
    /**
- * Nome do usuário
- * @var string
- */
+    * Nome do Usuários
+    * @var string
+    */
    public $nome;
    /**
- * EMAIL do usuário
- * @var string
- */
+    * Email do Usuários
+    * @var string
+    */
    public $email;
    /**
- * Celular do usuário
- * @var string
- */
+    * Celular do Usuários
+    * @var string
+    */
    public $celular;
    /**
- * Status do usuário no sistema
- * @var string
- */
+    * Status do Usuário no sistema
+    * @var string
+    */
    public $logado;
-   /**
- * Carrega os atributos da classe
- * @param string $login Login do Usuario
- * @param string $nome Nome do Usuario
- * @param string $email Email do Usuario
- * @param string $celular Celular do Usuario
- * @param boolean $logado Status do Usuario no sistema
- * @return void
- */
-   public function addUsuario($login, $nome, $email, $celular, $logado){
-      $this->login = $login;
-      $this->nome = $nome;
-      $this->email = $email;
-      $this->celular = $celular;
-      $this->logado = $logado;
+    /**
+    * Carrega os atributos da classe
+    * @param string $login Login do usuário
+    * @param string $senha Senha do usuário
+    * @param string $email Email do usuário
+    * @param string $celular Celular do usuário
+    * @param string $logado Se for logado com sucesso recebe TRUE, senão recebe FALSE
+    * @return Void
+    */
+   public function addUsuario($login, $nome, $email, $celular, $logado){ //Erro: Falta o celular...
+     $this->login = $login;
+     $this->nome = $nome;
+     $this->email = $email;
+     $this->celular = $celular;
+     $this->logado = $logado;
    }
 }
 ?>

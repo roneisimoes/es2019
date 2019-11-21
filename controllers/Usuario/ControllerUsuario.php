@@ -2,14 +2,14 @@
 namespace CONTROLLERS;
 $separador = DIRECTORY_SEPARATOR;
 $root = $_SERVER['DOCUMENT_ROOT'].$separador;
-require_once($root .'prospectcolector/DAO/DAOUsuario.php');
+require_once($root .'RVProspect/DAO/DAOUsuario.php');
 use DAO\DAOUsuario;
 /**
  * Esta classe é responsável por fazer o tratamento dos dados para apresentação e/ou
  * envio para a DAO
  * Seu escopo limita-se às funções da entidade Usuário
  *
- * @author Paulo Roberto Córdova
+ * @author Ronei/Vitor
  */
 class ControllerUsuario{
    /**
