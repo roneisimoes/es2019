@@ -16,17 +16,26 @@ if(isset($_SESSION['usuario'])){
     <body>
         <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="collapse navbar-collapse" id="textoNavbar">
+        <div class="collapse navbar-collapse" id="textoNavbar">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="../main.php">Home <span class="sr-only">(Página atual)</span></a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="../Usuario/v_incluir_usuario.php">Cadastrar Usuarios</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#">Cadastrar Prospects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="v_listar_prospects.php">Listar Prospects</a>
                     </li>
                 </ul>
                 <span class="navbar-text">
-                        Bem vindo: ---
+                    Bem vindo: <?php
+                                    $usuario = unserialize($_SESSION["usuario"]);
+                                    echo $usuario->nome;
+                                ?> 
                 </span>
             </div>
         </nav>
@@ -34,7 +43,7 @@ if(isset($_SESSION['usuario'])){
         <div class="container">
             <form class="form-signin" action="../../controllers/Prospect/c_incluir_prospect.php" method="POST">
                 <div>
-                    <h5 class="form-signin-heading">Cadastro de Prospects:</h5>
+                    <a class="nav-link" href="v_incluir_prospect.php">Cadastrar Prospects</a>
                 </div class="">
                 <div class="form-group">
                      <label for="nome">Nome:</label>
@@ -66,4 +75,4 @@ if(isset($_SESSION['usuario'])){
 }else{
     $_SESSION['erroLogin'] = "Faça o login para acessar o sistema";
     header("Location: ../../index.php");
-}
+}?>

@@ -7,14 +7,14 @@
     use MODELS\Prospect;
     class DAOProspect{
        
-    public function incluirProspect($nome, $email, $celular, $facebook, $whatsapp, $rua, $numero, $bairro, $cidade, $uf, $cep){
+    public function incluirProspect($nome, $email, $celular, $facebook, $whatsapp){
         $conexaoDB = $this-> conectarbanco();
         
         $sqlInsert = $conexaoDB->prepare("insert into prospect
-                                        (nome, email, celular, facebook, whatsapp, rua, numero, bairro, cidade, uf, cep)
+                                        (nome, email, celular, facebook, whatsapp)
                                         values
-                                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $sqlInsert ->bind_param("ssssssissss", $nome, $email, $celular, $facebook, $whatsapp, $rua, $numero, $bairro, $cidade, $uf, $cep);
+                                        (?, ?, ?, ?, ?)");
+        $sqlInsert ->bind_param("sssss", $nome, $email, $celular, $facebook, $whatsapp);
         
         $sqlInsert-> execute();
         if(!$sqlInsert->error){
@@ -30,13 +30,13 @@
 
    
 
-    public function atualizarProspect($nome, $email, $celular, $facebook, $whatsapp, $rua, $numero, $bairro, $cidade, $uf, $cep, $idprospect){
+    public function atualizarProspect($nome, $email, $celular, $facebook, $whatsapp){
         $conexaoDB = $this-> conectarbanco();
         
         $sqlUpdate = $conexaoDB->prepare("UPDATE prospect
-                                        SET nome=? , email=?, celular=?, facebook=?, whatsapp=?, rua=?, numero=?, bairro=?, cidade=?, uf=?, cep=?
+                                        SET nome=? , email=?, celular=?, facebook=?, whatsapp=?
                                         WHERE idprospect =?");
-        $sqlUpdate ->bind_param("ssssssissssi", $nome, $email, $celular, $facebook, $whatsapp, $rua, $numero, $bairro, $cidade, $uf, $cep, $idprospect);
+        $sqlUpdate ->bind_param("ssssssi", $nome, $email, $celular, $facebook, $whatsapp);
         
         $sqlUpdate-> execute();
         if(!$sqlUpdate->error){
@@ -65,16 +65,16 @@
 
     }
 
-    public function buscarProspect($email=null){
+    public function buscarProspects($email=null){
         $conexaoDB = $this-> conectarbanco();
         $prospects = array();
         
         if($email == null){
                     
-            $sqlBusca = $conexaoDB->prepare("select idprospect, nome, email, celular, facebook, whatsapp, rua, numero, bairro, cidade, uf, cep from prospect");
+            $sqlBusca = $conexaoDB->prepare("select idprospect, nome, email, celular, facebook, whatsapp from prospect");
             $sqlBusca->execute();
         }else{
-            $sqlBusca = $conexaoDB->prepare("select idprospect, nome, email, celular, facebook, whatsapp, rua, numero, bairro, cidade, uf, cep from prospect where email = ?");
+            $sqlBusca = $conexaoDB->prepare("select idprospect, nome, email, celular, facebook, whatsapp from prospect where email = ?");
             $sqlBusca->bind_param("s", $email);
             $sqlBusca->execute();
         }
@@ -89,12 +89,6 @@
                     "celular" => $linha['celular'],
                     "facebook" => $linha['facebook'],
                     "whatsapp" => $linha['whatsapp'],
-                    "rua" => $linha['rua'],
-                    "numero" => $linha['numero'],
-                    "bairro" => $linha['bairro'],
-                    "cidade" => $linha['cidade'],
-                    "uf" => $linha['uf'],
-                    "cep" => $linha['cep']
                 );
                 $prospects[] = $prospect;
             }

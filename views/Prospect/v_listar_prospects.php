@@ -4,7 +4,6 @@ require_once('../../models/Usuario.php');
 require_once('../../controllers/Prospect/ControllerProspect.php');
 use controllers\ControllerProspect;
 use models\Usuario;
-
 if(isset($_SESSION['usuario'])){
 ?>
 <!DOCTYPE html>
@@ -23,19 +22,27 @@ if(isset($_SESSION['usuario'])){
     <body>
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="collapse navbar-collapse" id="textoNavbar">
+            <div class="collapse navbar-collapse" id="textoNavbar">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link " href="../principal.php">Home <span class="sr-only">(Página atual)</span></a>
+                            <a class="nav-link " href="../main.php">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Cadastrar Prospects</a>
+                            <a class="nav-link" href="../Usuario/v_incluir_usuario.php">Cadastrar Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="v_incluir_prospect.php">Cadastrar Prospects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="v_listar_prospects.php">Listar Prospects</a>
                         </li>
                     </ul>
                     <span class="navbar-text">
-                    Bem vindo: <?php $usuario = unserialize($_SESSION['usuario']);
-                    echo $usuario->nome;
-                    ?>
+                    Bem vindo: <?php
+                                $usuario = unserialize($_SESSION["usuario"]);
+                                echo $usuario->nome;
+                            ?> 
+                    </span>
                 </div>
             </nav>
         </header><br>
@@ -56,15 +63,16 @@ if(isset($_SESSION['usuario'])){
                         <?php
                             $ctrlProspect = new ControllerProspect();
                             $listarProspects = $ctrlProspect->buscarProspects();
-                            foreach($listarProspects as $prospect){    
+                            
+                            foreach($listarProspects as $prospect){   
                                 echo '<tr>';
-                                    echo '<td>'.$prospect->nome.'</td>';
-                                    echo '<td>'.$prospect->email.'</td>';
-                                    echo '<td>'.$prospect->celular.'</td>';
-                                    echo '<td>'.$prospect->facebook.'</td>';
-                                    echo '<td>'.$prospect->whatsapp.'</td>';
-                                    echo '<td width="150"><a href="v_alterar_prospect.php?email="'.$prospect->email.'">alterar</a> |
-                                    <a href="../../controllers/Prospect/c_excluir_prospect.php?codigo='.$prospect->codigo.'">excluir</a></td>';
+                                    echo '<td>'.$prospect['nome'].'</td>';
+                                    echo '<td>'.$prospect['email'].'</td>';
+                                    echo '<td>'.$prospect['celular'].'</td>';
+                                    echo '<td>'.$prospect['facebook'].'</td>';
+                                    echo '<td>'.$prospect['whatsapp'].'</td>';
+                                    echo '<td width="150"><a href="v_alterar_prospect.php?email='.$prospect['email'].'"> alterar </a> |
+                                    <a href="../../controllers/Prospect/c_excluir_prospect.php?codigo='.$prospect['idprospect'].'"> excluir </a></td>';
                                 echo '</tr>';
                             }
                         ?>
@@ -74,7 +82,7 @@ if(isset($_SESSION['usuario'])){
             <div>
                 <a class="btn btn-primary" href="v_incluir_prospect.php">Novo</a>
             </div>
-        </div>
+        
 
     </body>
 </html>

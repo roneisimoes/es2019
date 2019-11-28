@@ -24,7 +24,9 @@
                         </li>
                     </ul>
                     <span class="navbar-text">
-                        Bem vindo: ---
+                        Bem vindo: <?php $usuario = unserialize($_SESSION['usuario']);
+                        echo $usuario->nome;
+                        ?>
                     </span>
                 </div>
             </nav>

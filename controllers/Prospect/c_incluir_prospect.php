@@ -8,7 +8,7 @@ $separador = DIRECTORY_SEPARATOR;
 $root = $_SERVER['DOCUMENT_ROOT'].$separador;
 
 require_once('ControllerProspect.php');
-require_once($root.'prospectcoletor/models/Prospect.php');
+require_once($root.'RVProspect/models/Prospect.php');
 
 use models\Prospect;
 use controllers\ControllerProspect;
@@ -18,10 +18,10 @@ if(isset($_POST['email'])){
     $email = $_POST['email'];
     $celular = $_POST['celular'];
     $facebook = $_POST['facebook'];
-    $whatsaap = $_POST['whatsaap'];
+    $whatsapp = $_POST['whatsapp'];
 
     $prospect = new Prospect();
-    $prospect->addProspect(null, $nome, $email, $celular, $facebook, $whatsaap);
+    $prospect->addProspect(null, $nome, $email, $celular, $facebook, $whatsapp);
 
      $ctrlProspect = new ControllerProspect();
 

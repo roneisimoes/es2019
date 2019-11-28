@@ -19,7 +19,7 @@ if(isset($_GET['codigo'])){
     unset($prospect);
     unset($ctrlProspect);
 
-    header("Location: ../../views/Prospects/v_listar_prospects.php");
+    header("Location: ../../views/Prospect/v_listar_prospects.php");
 }else{
     $_SESSION['erroLogin'] = "Faça o login para completar a operaçao";
     header("Location: ../index.php");

@@ -14,19 +14,26 @@ if(isset($_SESSION['usuario'])){
     <body>
         <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="collapse navbar-collapse" id="textoNavbar">
+        <div class="collapse navbar-collapse" id="textoNavbar">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Home <span class="sr-only">(Página atual)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cadastrar Prospects</a>
+                        <a class="nav-link" href="Usuario/v_incluir_usuario.php">Cadastrar Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Prospect/v_incluir_prospect.php">Cadastrar Prospects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Prospect/v_listar_prospects.php">Listar Prospects</a>
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    Bem vindo: <?php $usuario = unserialize($_SESSION['usuario']);
-                    echo $usuario->nome;
-                    ?>
+                    Bem vindo: <?php
+                                    $usuario = unserialize($_SESSION["usuario"]);
+                                    echo $usuario->nome;
+                                ?> 
                 </span>
             </div>
         </nav>

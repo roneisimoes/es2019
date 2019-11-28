@@ -9,7 +9,7 @@ use DAO\DAOProspect;
  * envio para a DAO executar as consultas no banco de dados.
  * Seu escopo se limita às funções da entidade prospect.
  *
- * @author Paulo Roberto Córdova
+ * @author Vitor e Ronei
  *
  */
 class ControllerProspect{
@@ -41,7 +41,7 @@ class ControllerProspect{
           */
          try{
             $daoProspect->atualizarProspect($prospect->nome, $prospect->email, $prospect->celular, $prospect->facebook,
-                                            $prospect->whatsapp, $prospect->codigo);
+                                            $prospect->whatsapp, $prospect->idprospect);
             unset($daoProspect);
             return TRUE;
          }catch(\Exception $e){
